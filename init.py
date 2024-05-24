@@ -1,9 +1,10 @@
+from selenium import webdriver
+from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.service import Service as ChromeService
 from webdriver_manager.chrome import ChromeDriverManager
 import time
 import os
-
-# time.sleep(30)
 
 user_home_dir = os.path.expanduser('~')
 chrome_data_dir = os.path.join(user_home_dir, 'AppData', 'Local', 'Google', 'Chrome', 'User Data')
@@ -96,3 +97,4 @@ for _ in range(MaxWaitTimeInMinutes*60 // SleepTime):
     time.sleep(5)
 
 print("Done")
+
