@@ -5,7 +5,7 @@ xcopy "%programdata%\Remote Eval Agent\UserInit\UserProfile\" "%userprofile%\" /
 timeout 8
 
 start "" "C:\Program Files\Analog Devices\ACE\ACE.exe"
-start "" C:\Python311\pythonw.exe "C:\ProgramData\Remote Eval Agent\userinit.py"
+start "" C:\Python311\pythonw.exe "C:\ProgramData\Remote Eval Agent\init.py"
 
 timeout 10
 
