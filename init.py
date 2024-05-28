@@ -78,6 +78,9 @@ time.sleep(1)
 
 driver.switch_to.window(driver.window_handles[0])
 
+# Click on the PXA: Control Instrument subtab
+driver.find_element(By.XPATH, "/html/body/header/div[3]/div/div[2]/ul/li[2]").click()
+
 def driver_is_connected():
     try:
         driver.title
