@@ -88,16 +88,25 @@ def driver_is_connected():
     except:
         return False
 
-SleepTime = 5
-MaxWaitTimeInMinutes = 120
+sleep_time = 60  # seconds
+max_wait_time_in_minutes = 120 + 10
+timeout_time = max_wait_time_in_minutes * 60 
 
-for _ in range(MaxWaitTimeInMinutes*60 // SleepTime):
+# Get the start time
+start_time = time.time()
+
+while True:
+    elapsed_time = time.time() - start_time
+    
+    if elapsed_time >= timeout_time:
+        print("Timeout reached")
+        break
 
     if not driver_is_connected():
         driver.quit()
         break
         
-    time.sleep(5)
+    time.sleep(sleep_time)
 
 print("Done")
 
