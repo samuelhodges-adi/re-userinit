@@ -5,7 +5,7 @@ xcopy "%programdata%\Remote Eval Agent\UserInit\UserProfile\" "%userprofile%\" /
 timeout 8
 
 start "" "C:\Program Files\Analog Devices\ACE\ACE.exe"
-start "" C:\Python311\pythonw.exe "%~dp0init.py"
+call "%~dp0run-python-init.bat"
 
 timeout 10
 
