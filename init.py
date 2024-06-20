@@ -10,6 +10,7 @@ user_home_dir = os.path.expanduser('~')
 chrome_data_dir = os.path.join(user_home_dir, 'AppData', 'Local', 'Google', 'Chrome', 'User Data')
 
 options = webdriver.ChromeOptions()
+options.add_experimental_option("detach", True)
 options.add_experimental_option("useAutomationExtension", False)
 options.add_experimental_option("excludeSwitches",["enable-automation"])
 options.add_argument('--hide-crash-restore-bubble')
@@ -58,7 +59,7 @@ def open_url(url, open_new_tab = True):
 driver.set_window_size(1000,1200)
 driver.set_window_position(0,0)
 
-# Open PXA 
+# Open PXA
 open_url("http://169.254.149.210/", open_new_tab=False)
 
 # Open sma
@@ -80,33 +81,3 @@ driver.switch_to.window(driver.window_handles[0])
 
 # Click on the PXA: Control Instrument subtab
 driver.find_element(By.XPATH, "/html/body/header/div[3]/div/div[2]/ul/li[2]").click()
-
-def driver_is_connected():
-    try:
-        driver.title
-        return True
-    except:
-        return False
-
-sleep_time = 60  # seconds
-max_wait_time_in_minutes = 120 + 10
-timeout_time = max_wait_time_in_minutes * 60 
-
-# Get the start time
-start_time = time.time()
-
-while True:
-    elapsed_time = time.time() - start_time
-    
-    if elapsed_time >= timeout_time:
-        print("Timeout reached")
-        break
-
-    if not driver_is_connected():
-        driver.quit()
-        break
-        
-    time.sleep(sleep_time)
-
-print("Done")
-
