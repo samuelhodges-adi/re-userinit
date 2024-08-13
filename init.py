@@ -14,9 +14,12 @@ chrome_data_dir = os.path.join(
 options = webdriver.ChromeOptions()
 options.add_experimental_option("detach", True)
 options.add_experimental_option("useAutomationExtension", False)
-options.add_experimental_option("excludeSwitches", ["enable-automation"])
+options.add_experimental_option(
+    "excludeSwitches", ["enable-automation", "enable-logging"]
+)
 options.add_argument("--hide-crash-restore-bubble")
 options.add_argument("--no-sandbox")
+options.add_argument("headless")
 # options.add_argument("--remote-debugging-port=9292")
 options.add_argument(f"--user-data-dir={chrome_data_dir}")
 options.add_argument("profile-directory=Default")
