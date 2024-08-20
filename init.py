@@ -92,6 +92,47 @@ open_url_and_login(
     "/html/body/div/div/div/form/div[4]/input",
     "/html/body/div/div/div/form/div[6]",
 )
+
+# Open camera feed
+webcam_html = """
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Camera Feed</title>
+</head>
+<body>
+    <h1>Board Camera Feed</h1>
+    <video id="video" width="1920" height="1080" autoplay></video>
+
+    <script>
+        // Get access to the camera
+        async function getCameraFeed() {
+            try {
+                const constraints = {
+                    video: {
+                        width: 1920,
+                        height: 1080,
+                    }
+                };
+                const stream = await navigator.mediaDevices.getUserMedia(constraints);
+                const video = document.getElementById('video');
+                video.srcObject = stream;
+            } catch (error) {
+                console.error('Error accessing camera: ', error);
+            }
+        }
+
+        // Initialize the camera feed
+        window.onload = getCameraFeed;
+    </script>
+</body>
+</html>
+"""
+open_url(f"data:text/html;charset=utf-8,{urllib.parse.quote(webcam_html)}", open_new_tab=True)
+
+
 driver.refresh()  # make sure extension loads correctly
 time.sleep(1)
 
