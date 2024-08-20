@@ -5,6 +5,7 @@ from selenium.webdriver.chrome.service import Service as ChromeService
 from webdriver_manager.chrome import ChromeDriverManager
 import time
 import os
+import urllib.parse
 
 user_home_dir = os.path.expanduser("~")
 chrome_data_dir = os.path.join(
