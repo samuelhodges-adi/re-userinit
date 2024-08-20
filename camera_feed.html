@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Camera Feed</title>
+    <title>Board Camera Feed</title>
 </head>
 <body>
     <h1>Board Camera Feed</h1>
@@ -17,6 +17,7 @@
                     video: {
                         width: 1920,
                         height: 1080,
+                        frameRate: { ideal: 5, max: 5 }
                     }
                 };
                 const stream = await navigator.mediaDevices.getUserMedia(constraints);
