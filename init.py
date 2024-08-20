@@ -5,7 +5,6 @@ from selenium.webdriver.chrome.service import Service as ChromeService
 from webdriver_manager.chrome import ChromeDriverManager
 import time
 import os
-import urllib.parse
 
 user_home_dir = os.path.expanduser("~")
 chrome_data_dir = os.path.join(
@@ -94,45 +93,13 @@ open_url_and_login(
     "/html/body/div/div/div/form/div[6]",
 )
 
-# Open camera feed
-webcam_html = """
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Camera Feed</title>
-</head>
-<body>
-    <h1>Board Camera Feed</h1>
-    <video id="video" width="1920" height="1080" autoplay></video>
+# Get the current working directory (where the .py and .html files are located)
+current_dir = os.path.dirname(os.path.abspath(__file__))
 
-    <script>
-        // Get access to the camera
-        async function getCameraFeed() {
-            try {
-                const constraints = {
-                    video: {
-                        width: 1920,
-                        height: 1080,
-                    }
-                };
-                const stream = await navigator.mediaDevices.getUserMedia(constraints);
-                const video = document.getElementById('video');
-                video.srcObject = stream;
-            } catch (error) {
-                console.error('Error accessing camera: ', error);
-            }
-        }
+# Path to the HTML file
+html_file_path = os.path.join(current_dir, "camera_feed.html")
 
-        // Initialize the camera feed
-        window.onload = getCameraFeed;
-    </script>
-</body>
-</html>
-"""
-open_url(f"data:text/html;charset=utf-8,{urllib.parse.quote(webcam_html)}", open_new_tab=True)
-
+open_url(f"http://localhost:8000/{os.path.basename(html_file_path)}")
 
 driver.refresh()  # make sure extension loads correctly
 time.sleep(1)
