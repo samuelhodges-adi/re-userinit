@@ -28,7 +28,7 @@
             border-radius: 5px;
             text-align: right;
         }
-        .note-box {
+        .warning-box {
             position: absolute;
             top: 10px;
             left: 10px;
@@ -66,7 +66,7 @@
     <div class="controls">
         <p>Double-click to zoom. <button id="reset">Reset Size</button></p>
     </div>
-    <div class="note-box" id="noteBox">
+    <div class="warning-box" id="warningBox">
         <p>Warning: Refreshing or leaving this page may cause you to lose access to the video feed.</p>
     </div>
     <div class="video-container">
@@ -139,28 +139,30 @@
 
         // Warn the user before refreshing or closing the page
         window.addEventListener('beforeunload', function (e) {
-            const noteBox = document.getElementById('noteBox');
+            const warningBox = document.getElementById('warningBox');
 
-            // Show the note box
-            if (noteBox) {
-                noteBox.style.display = 'block';
+            // Show the warning box
+            if (warningBox) {
+                warningBox.style.display = 'block';
 
-                // Ensure only one note box exists by clearing any previous timeouts
-                if (window.noteBoxTimeout) {
-                    clearTimeout(window.noteBoxTimeout);
+                // Ensure only one warning box exists by clearing any previous timeouts
+                if (window.warningBoxTimeout) {
+                    clearTimeout(window.warningBoxTimeout);
                 }
 
-                // Hide the note box after 30 seconds
-                window.noteBoxTimeout = setTimeout(function() {
-                    noteBox.style.display = 'none';
+                // Hide the warning box after 30 seconds
+                window.warningBoxTimeout = setTimeout(function() {
+                    warningBox.style.display = 'none';
                 }, 30000);
             }
 
+            // Trigger the confirmation dialog
             const message = 'Are you sure you want to leave? You may lose access to the video feed.';
             e.preventDefault();
-            e.returnValue = message; // Standard browsers require this line
+            e.returnValue = message; // This line is necessary for triggering the dialog in most browsers
             return message; // For legacy browsers
         });
     </script>
 </body>
 </html>
+
