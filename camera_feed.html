@@ -28,6 +28,19 @@
             border-radius: 5px;
             text-align: right;
         }
+        .note-box {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            z-index: 20;
+            background: rgba(255, 255, 255, 0.9);
+            color: black;
+            font-family: Arial, sans-serif;
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+            display: none;
+        }
         .video-container {
             position: relative;
             flex: 1;
@@ -53,6 +66,9 @@
     <div class="controls">
         <p>Double-click to zoom. <button id="reset">Reset Size</button></p>
     </div>
+    <div class="note-box" id="noteBox">
+        <p>Warning: Refreshing or leaving this page may cause you to lose access to the video feed.</p>
+    </div>
     <div class="video-container">
         <canvas id="canvas"></canvas>
     </div>
@@ -64,7 +80,6 @@
                     video: {
                         width: { ideal: 1920, max: 1920 },
                         height: { ideal: 1080, max: 1080 },
-                        // frameRate: { ideal: 30, max: 30 } // camera is 30hz
                     }
                 };
 
@@ -124,13 +139,28 @@
 
         // Warn the user before refreshing or closing the page
         window.addEventListener('beforeunload', function (e) {
+            const noteBox = document.getElementById('noteBox');
+
+            // Show the note box
+            if (noteBox) {
+                noteBox.style.display = 'block';
+
+                // Ensure only one note box exists by clearing any previous timeouts
+                if (window.noteBoxTimeout) {
+                    clearTimeout(window.noteBoxTimeout);
+                }
+
+                // Hide the note box after 30 seconds
+                window.noteBoxTimeout = setTimeout(function() {
+                    noteBox.style.display = 'none';
+                }, 30000);
+            }
+
             const message = 'Are you sure you want to leave? You may lose access to the video feed.';
             e.preventDefault();
-            e.returnValue = message; // This is required for some browsers
-            return message; // This works in most browsers
+            e.returnValue = message; // Standard browsers require this line
+            return message; // For legacy browsers
         });
     </script>
 </body>
 </html>
-
-
