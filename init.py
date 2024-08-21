@@ -5,7 +5,34 @@ from selenium.webdriver.chrome.service import Service as ChromeService
 from webdriver_manager.chrome import ChromeDriverManager
 import time
 import os
+import http.server
+import socketserver
+import threading
+import psutil
 
+# Function to check if the server is already running
+def is_http_server_running(port=8000):
+    for conn in psutil.net_connections(kind='inet'):
+        if conn.laddr.port == port and conn.status == psutil.CONN_LISTEN:
+            return True
+    return False
+
+# Function to start the HTTP server if not already running
+def start_http_server(port=8000):
+    if not is_http_server_running(port):
+        handler = http.server.SimpleHTTPRequestHandler
+        httpd = socketserver.TCPServer(("localhost", port), handler)
+        server_thread = threading.Thread(target=httpd.serve_forever)
+        server_thread.daemon = True
+        server_thread.start()
+        print(f"HTTP server started on localhost:{port}")
+    else:
+        print(f"HTTP server is already running on localhost:{port}")
+
+# Start the HTTP server if it's not already running
+start_http_server(port=8000)
+
+# Selenium configuration
 user_home_dir = os.path.expanduser("~")
 chrome_data_dir = os.path.join(
     user_home_dir, "AppData", "Local", "Google", "Chrome", "User Data"
@@ -30,7 +57,6 @@ service = ChromeService(ChromeDriverManager().install())
 driver = webdriver.Chrome(options=options, keep_alive=True)
 
 driver.implicitly_wait(30)
-
 
 def open_url_and_login(
     url,
@@ -61,14 +87,12 @@ def open_url_and_login(
 
     time.sleep(1)
 
-
 def open_url(url, open_new_tab=True):
     if open_new_tab:
         driver.execute_script("window.open('');")
         driver.switch_to.window(driver.window_handles[-1])
     driver.get(url)
     time.sleep(1)
-
 
 driver.set_window_size(1000, 1200)
 driver.set_window_position(0, 0)
@@ -99,6 +123,7 @@ current_dir = os.path.dirname(os.path.abspath(__file__))
 # Path to the HTML file
 html_file_path = os.path.join(current_dir, "camera_feed.html")
 
+# connect to the local http server and serve the html file
 open_url(f"http://localhost:8000/{os.path.basename(html_file_path)}")
 
 driver.refresh()  # make sure extension loads correctly
@@ -108,3 +133,6 @@ driver.switch_to.window(driver.window_handles[0])
 
 # Click on the PXA: Control Instrument subtab
 driver.find_element(By.XPATH, "/html/body/header/div[3]/div/div[2]/ul/li[2]").click()
+
+# The script will exit, but the HTTP server will remain running in the background.
+
