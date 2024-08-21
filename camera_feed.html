@@ -39,11 +39,7 @@
             padding: 10px;
             border-radius: 5px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-            font-size: 12px;  /* Initially small text */
-            transition: font-size 0.3s ease;
-        }
-        .warning-box.enlarged {
-            font-size: 20px;  /* Enlarged text size */
+            font-size: 12px;  /* Small text */
         }
         .video-container {
             position: relative;
@@ -141,32 +137,12 @@
 
         window.onload = getCameraFeed;
 
-        // Enlarge the warning box text
-        function enlargeWarningBox() {
-            const warningBox = document.getElementById('warningBox');
-
-            if (warningBox) {
-                warningBox.classList.add('enlarged');
-
-                // Ensure only one enlargement action exists by clearing any previous timeouts
-                if (window.warningBoxTimeout) {
-                    clearTimeout(window.warningBoxTimeout);
-                }
-
-                // Reset the text size after 30 seconds
-                window.warningBoxTimeout = setTimeout(function() {
-                    warningBox.classList.remove('enlarged');
-                }, 30000);
-            }
-        }
-
         // Warn the user before refreshing or closing the page
         window.addEventListener('beforeunload', function (e) {
             // Trigger the confirmation dialog
             const message = 'Are you sure you want to leave? You may lose access to the video feed.';
             e.preventDefault();
             e.returnValue = message; // This line is necessary for triggering the dialog in most browsers
-            enlargeWarningBox(); // Enlarge the warning box text
             return message; // For legacy browsers
         });
     </script>
