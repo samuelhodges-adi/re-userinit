@@ -129,6 +129,8 @@ open_url(f"http://localhost:8000/{os.path.basename(html_file_path)}")
 driver.refresh()  # make sure extension loads correctly
 time.sleep(1)
 
+open_url("https://forms.office.com/r/VChHZ6NQ0Y", open_new_tab=True)
+
 driver.switch_to.window(driver.window_handles[0])
 
 # Click on the PXA: Control Instrument subtab
