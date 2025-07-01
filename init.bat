@@ -8,6 +8,8 @@ if "%1"=="chrome" (
   echo copying user settings
   xcopy "%programdata%\Remote Eval Agent\UserInit\AppData\" "%appdata%\..\" /E/H/Y
   xcopy "%programdata%\Remote Eval Agent\UserInit\UserProfile\" "%userprofile%\" /E/H/Y
+
+  taskkill /F /IM ACE.exe
   timeout 8
 
   start "" "C:\Program Files\Analog Devices\ACE\ACE.exe"
@@ -15,4 +17,4 @@ if "%1"=="chrome" (
   timeout 10
 )
 
-exit
+exit /b
