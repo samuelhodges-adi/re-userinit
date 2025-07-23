@@ -7,21 +7,26 @@ if "%1"=="chrome" (
   echo Performing first time setup  
   echo Deleting existing user Desktop and Chrome data...
 
-  rmdir /S /Q "%userprofile%\Desktop"
-  rmdir /S /Q "%localappdata%\Google\Chrome"
+  if exist "%userprofile%\Desktop" (
+    rmdir /S /Q "%userprofile%\Desktop"
+  )
 
-  echo Copying user settings...  
-  
-  robocopy "C:\ProgramData\Remote Eval Agent\UserInit\AppData" "%appdata%\.." /E /COPY:DATSO /R:2 /W:1  
-  robocopy "C:\ProgramData\Remote Eval Agent\UserInit\UserProfile" "%userprofile%" /E /COPY:DATSO /R:2 /W:1  
-  
-  taskkill /F /IM ACE.exe  
-  timeout /t 8 /nobreak >nul
+  if exist "%localappdata%\Google\Chrome" (
+    rmdir /S /Q "%localappdata%\Google\Chrome"
+  )
 
-  start "" "C:\Program Files\Analog Devices\ACE\ACE.exe"  
-  call "%~dp0run-python-init.bat"  
-  timeout /t 10 /nobreak >nul
+  echo Copying user settings...
+
+  rem Only copy Data, Attributes, and Timestamps — no security, no ownership
+  robocopy "C:\ProgramData\Remote Eval Agent\UserInit\AppData" "%appdata%\.." /E /COPY:DAT /R:1 /W:1 /MT:8 /NJH /NJS /NFL /NDL /NP
+  robocopy "C:\ProgramData\Remote Eval Agent\UserInit\UserProfile" "%userprofile%" /E /COPY:DAT /R:1 /W:1 /MT:8 /NJH /NJS /NFL /NDL /NP
+
+  taskkill /F /IM ACE.exe
+  timeout 8
+
+  start "" "C:\Program Files\Analog Devices\ACE\ACE.exe"
+  call "%~dp0run-python-init.bat"
+  timeout 10
 )
 
 exit /b
-
