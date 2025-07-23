@@ -5,12 +5,13 @@ if "%1"=="chrome" (
   call "%~dp0run-python-init.bat"
 ) else (
   echo Performing first time setup
-  echo copying user settings
-  xcopy "%programdata%\Remote Eval Agent\UserInit\AppData\" "%appdata%\..\" /E/H/Y
-  xcopy "%programdata%\Remote Eval Agent\UserInit\UserProfile\" "%userprofile%\" /E/H/Y
+  echo Copying user settings...
+
+  robocopy "%programdata%\Remote Eval Agent\UserInit\AppData" "%appdata%\.." /E /COPYALL /R:2 /W:1
+  robocopy "%programdata%\Remote Eval Agent\UserInit\UserProfile" "%userprofile%" /E /COPYALL /R:2 /W:1
 
   taskkill /F /IM ACE.exe
-  timeout 8
+  timeout /t 8 /nobreak >nul
 
   start "" "C:\Program Files\Analog Devices\ACE\ACE.exe"
   call "%~dp0run-python-init.bat"
