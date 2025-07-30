@@ -28,7 +28,7 @@ if "%1"=="chrome" (
   taskkill /F /IM ACE.exe
   timeout 8
 
-  start "" "C:\Program Files\Analog Devices\ACE\ACE.exe"
+  start "" "C:\Program Files\Analog Devices\ACE (Apollo)\ACE.exe"
   call "%~dp0run-python-init.bat"
   timeout 10
 )
