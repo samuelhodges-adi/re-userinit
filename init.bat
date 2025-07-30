@@ -1,6 +1,7 @@
 @REM echo off
 
 if "%1"=="chrome" (
+  @echo off
   echo Launching Chrome
   call "%~dp0run-python-init.bat"
 ) else (
