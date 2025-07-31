@@ -37,6 +37,9 @@ if "%1"=="chrome" (
 
   REM --- If the copy profile doesn't exist, copy original to copy location
   if not exist "%chrome_data_dir%" (
+      REM --- Kill all Chrome processes
+      taskkill /F /IM chrome.exe >nul 2>&1
+
       echo Creating Chrome profile copy...
       xcopy /e /i /h /y "%chrome_original_data_dir%" "%chrome_data_dir%"
   )
