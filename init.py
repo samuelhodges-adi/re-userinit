@@ -67,6 +67,10 @@ def start_http_server(port=8000):
         print(f"HTTP server is already running on localhost:{port}")
 
 
+# Determine the directory where the script and camera_feed.html live
+current_dir = os.path.dirname(os.path.abspath(__file__))
+os.chdir(current_dir)
+
 # Start the HTTP server if it's not already running
 start_http_server(port=8000)
 
@@ -179,14 +183,7 @@ open_url_and_login(
 )
 
 
-# Get the current working directory (where the .py and .html files are located)
-current_dir = os.path.dirname(os.path.abspath(__file__))
-
-
-# Path to the HTML file
 html_file_path = os.path.join(current_dir, "camera_feed.html")
-
-
 # connect to the local http server and serve the html file
 open_url(f"http://localhost:8000/{os.path.basename(html_file_path)}")
 
