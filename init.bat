@@ -34,7 +34,6 @@ if "%1"=="chrome" (
   REM --- Set up variables
   if not defined chrome_original_data_dir set "chrome_original_data_dir=%USERPROFILE%\AppData\Local\Google\Chrome\User Data"
   if not defined chrome_data_dir set "chrome_data_dir=%USERPROFILE%\AppData\Local\Google\Chrome\User Data Copy"
-  if not defined chrome_default_profile set "chrome_default_profile=Default"
 
   REM --- If the copy profile doesn't exist, copy original to copy location
   if not exist "%chrome_data_dir%" (
