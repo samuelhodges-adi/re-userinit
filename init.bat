@@ -30,20 +30,6 @@ if "%1"=="chrome" (
   timeout /t 8 >nul
 
   start "" "C:\Program Files\Analog Devices\ACE (Apollo)\ACE.exe"
-
-  REM --- Set up variables
-  if not defined chrome_original_data_dir set "chrome_original_data_dir=%USERPROFILE%\AppData\Local\Google\Chrome\User Data"
-  if not defined chrome_data_dir set "chrome_data_dir=%USERPROFILE%\AppData\Local\Google\Chrome\User Data Copy"
-
-  REM --- If the copy profile doesn't exist, copy original to copy location
-  if not exist "%chrome_data_dir%" (
-      echo Killing Chrome processes...
-      taskkill /F /IM chrome.exe >nul 2>&1
-
-      echo Creating Chrome profile copy with robocopy...
-      robocopy "%chrome_original_data_dir%" "%chrome_data_dir%" /MIR /COPY:DAT /R:3 /W:1 /MT:8 /NP
-  )
-
   call "%~dp0run-python-init.bat"
   timeout /t 10 >nul
 )
