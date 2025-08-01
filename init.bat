@@ -26,8 +26,8 @@ if "%1"=="chrome" (
   robocopy "C:\ProgramData\Remote Eval Agent\UserInit\UserProfile" "%userprofile%" /E /COPY:DAT /IS /R:1 /W:1 /MT:8 /NP
 
   echo Restarting ACE...
-  taskkill /F /IM ACE.exe
-  timeout 8
+  taskkill /F /IM ACE.exe >nul 2>&1
+  timeout /t 8 >nul
 
   start "" "C:\Program Files\Analog Devices\ACE (Apollo)\ACE.exe"
 
@@ -37,16 +37,17 @@ if "%1"=="chrome" (
 
   REM --- If the copy profile doesn't exist, copy original to copy location
   if not exist "%chrome_data_dir%" (
-      REM --- Kill all Chrome processes
+      echo Killing Chrome processes...
       taskkill /F /IM chrome.exe >nul 2>&1
 
-      echo Creating Chrome profile copy...
-      xcopy /e /i /h /y "%chrome_original_data_dir%" "%chrome_data_dir%"
+      echo Creating Chrome profile copy with robocopy...
+      robocopy "%chrome_original_data_dir%" "%chrome_data_dir%" /MIR /COPY:DAT /R:3 /W:1 /MT:8 /NP
   )
 
   call "%~dp0run-python-init.bat"
-  timeout 10
+  timeout /t 10 >nul
 )
 
 exit /b
+
 
